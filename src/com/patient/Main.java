@@ -1,8 +1,7 @@
 package com.patient;
 
 public class Main {
-	final static String fileName = "PatientDB";
-	private static SQLiteDB sqLiteDB = new SQLiteDB();
+	
     public static void main(String[] args) {
     	
     	
