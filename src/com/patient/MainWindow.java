@@ -3,22 +3,17 @@ package com.patient;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Frame;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.JPanel;
 
 public class MainWindow {
 	final static String fileName = "PatientDB";
-	private static SQLiteDB sqLiteDB = new SQLiteDB();
+	private static SQLiteDBImpl sqLiteDB = new SQLiteDBImpl();
 	private JFrame frame;
-	private JTable patientTable= new JTable();
-	private JScrollPane tableContainer;
-	private JScrollPane scrollTable;
-	private JButton btnAddPatient = new JButton("Add Patient");
+	
 	/**
 	 * Launch the application.
 	 */
@@ -46,45 +41,43 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		TableBuilder tableImpl = new TableBuilder();
+		FormBuilder formBuilder = new FormBuilder();
+		JButton btnAddPatient = new JButton("Add Patient");
+		
+		JPanel patientTableContainer = new JPanel();
+		JPanel btnPanel = new JPanel();
+		patientTableContainer = tableImpl.create();
 		sqLiteDB.createNewTable(fileName);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-		setScrollTable(new JScrollPane());
-		frame.getContentPane().add(copyrightLabel, BorderLayout.PAGE_END);
-		btnPanel = new JPanel();
-		frame.getContentPane().add(btnPanel, BorderLayout.NORTH);
 		
-		frame.addWindowStateListener(new WindowStateListener() {
-	        @Override
-			public void windowStateChanged(WindowEvent event) {
-	            boolean isMaximized = isMaximized(event.getNewState());
-	            boolean wasMaximized = isMaximized(event.getOldState());
-
-	            if (isMaximized && !wasMaximized) {
-	            	SwingUtilities.invokeLater(new Runnable() {
-	                    @Override
-	                    public void run() {
-	                    	defaultSize();
-	                    }
-	                });
-	            } 
-	            else if (wasMaximized && !isMaximized) {
-	            	SwingUtilities.invokeLater(new Runnable() {
-	                    @Override
-	                    public void run() {
-	                    	defaultSize();
-	                    }
-	                });
-	            }
-	        }
-	    });
-		tableContainer = new JScrollPane(patientTable);
-		frame.getContentPane().add(tableContainer, BorderLayout.SOUTH);
+		
+		btnPanel.add(btnAddPatient);
+		
+		
+		frame.getContentPane().add(btnPanel, BorderLayout.SOUTH);
+		
+		frame.getContentPane().add(patientTableContainer, BorderLayout.NORTH);
+		
+		btnAddPatient.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame addPatientFrame = new JFrame();
+				addPatientFrame = formBuilder.create("Add Patient");
+				addPatientFrame.setVisible(true);
+				
+			}
+		});
 	}
+	
 	 private static boolean isMaximized(int state) {
 		    return (state & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
 	}
+	 
+	 
 
 }
