@@ -6,15 +6,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 public class TableBuilder implements ITable{
 
@@ -27,37 +24,24 @@ public class TableBuilder implements ITable{
 		JScrollPane tableContainer = new JScrollPane(patientTable);
 		JPopupMenu tableMenu = new JPopupMenu();
 		JMenuItem btnDeleteSelected = new JMenuItem("Delete Selected");
-		//JMenuItem btnModifySelected = new JMenuItem("Modify Selected");
-		/*btnModifySelected.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SQLiteDBImpl sqLiteDBImpl = new SQLiteDBImpl();
-				FormBuilder formBuilder = new FormBuilder();
-				
-				int id =  (int) patientTable.getModel().getValueAt(patientTable.getSelectedRow(), 0);
-				Patient patient = new Patient();
-				patient = sqLiteDBImpl.select(id);
-				formBuilder.create("Modify", patient);
-				//sqLiteDBImpl.modifySelected(patient);
-				loadDataFromDB();
-				
-			}
-		});*/
+		
 		btnDeleteSelected.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(patientTable.getSelectedRow() != -1){
 				SQLiteDBImpl sqLiteDBImpl = new SQLiteDBImpl();
 				int id =  (int) patientTable.getModel().getValueAt(patientTable.getSelectedRow(), 0);
 				sqLiteDBImpl.deleteSelected(id);
 				System.out.println(id);
-				loadDataFromDB();
+				loadDataFromDB();}
+				
 				
 			}
 		});
 		tableMenu.add(btnDeleteSelected);
 		patientTable.setComponentPopupMenu(tableMenu);
+		//patientTable.removeColumn(patientTable.getColumnModel().getColumn(0));
 		JPanel tablePanel = new JPanel(new BorderLayout());
 		
 		tablePanel.add(tableContainer,BorderLayout.CENTER);
@@ -109,6 +93,7 @@ public class TableBuilder implements ITable{
 			List<Patient> patientList = new ArrayList<>();
 			patientList.addAll(sqliteDB.selectAll());
 			patientTable.setModel(buildTableModel(patientList));
+			patientTable.removeColumn(patientTable.getColumnModel().getColumn(0));
 		    }
 		    
 		    

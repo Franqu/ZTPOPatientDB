@@ -4,62 +4,64 @@ public class Patient  {
 
 	
 	
-	private Integer Id;
-	private String Name;
-	private String Surname;
-	private String Identification;
-	private String Country;
-	private Double PhoneNumber;
+	private Integer id;
+	private String name;
+	private String surname;
+	private String identification;
+	private String country;
+	private Double phoneNumber;
 	private Double age;
 	private String Email;
     
 	
+	
+
 	public Integer getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Integer id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public String getSurname() {
-		return Surname;
+		return surname;
 	}
 
 	public void setSurname(String surname) {
-		Surname = surname;
+		this.surname = surname;
 	}
 
 	public String getIdentification() {
-		return Identification;
+		return identification;
 	}
 
 	public void setIdentification(String identification) {
-		Identification = identification;
+		this.identification = identification;
 	}
 
 	public String getCountry() {
-		return Country;
+		return country;
 	}
 
 	public void setCountry(String country) {
-		Country = country;
+		this.country = country;
 	}
 
 	public Double getPhoneNumber() {
-		return PhoneNumber;
+		return phoneNumber;
 	}
 
 	public void setPhoneNumber(Double phoneNumber) {
-		PhoneNumber = phoneNumber;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getEmail() {
